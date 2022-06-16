@@ -28,16 +28,16 @@ python run_kaggle.py --kaggle_id evangower/airbnb-stock-price --repo_id nateraw/
 ```
 
 
-### Convert Zenudo Dataset
+### Convert Zenodo Dataset
 
 Provide the record ID and the name of the repo on Hugging Face Hub you'd like to upload to (it will be created if it doesn't exist).
 
 ```
-python run_zenudo.py --zenudo_record 6606485 --repo_id nateraw/espeni
+python run_zenodo.py --zenodo_record 6606485 --repo_id nateraw/espeni
 ```
 
-For zenudo, you can also pass `--workers` flag if you want to do this with multiprocessing.
+For zenodo, you can also pass `--workers` flag if you want to do this with multiprocessing.
 
 ```
-python run_zenudo.py --zenudo_record 6606485 --repo_id nateraw/espeni --workers 2
+python run_zenodo.py --zenodo_record 6606485 --repo_id nateraw/espeni --workers 2
 ```
