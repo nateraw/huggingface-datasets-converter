@@ -1,1 +1,1 @@
-from .convert import zenudo_to_hf, kaggle_to_hf
+from .convert import zenodo_to_hf, kaggle_to_hf

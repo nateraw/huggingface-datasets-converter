@@ -24,15 +24,15 @@ def download_urls(urls, root='./data', num_download_workers=1):
         poolproc = Pool(num_download_workers)
         poolproc.map(part, urls)
 
-def zenudo_to_hf(zenudo_id, repo_id, num_download_workers=1):
-    url = f'https://zenodo.org/record/{zenudo_id}'
+def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1):
+    url = f'https://zenodo.org/record/{zenodo_id}'
     r = requests.get(url, headers={'Accept': 'application/json'})
     soup = bs(r.text, 'lxml')
     json_str = soup.find('script').text
-    zenudo_record_data = json.loads(json_str)
+    zenodo_record_data = json.loads(json_str)
     
-    zenudo_files = zenudo_record_data.get('distribution')
-    urls_to_download = [x['contentUrl'] for x in zenudo_files]
+    zenodo_files = zenodo_record_data.get('distribution')
+    urls_to_download = [x['contentUrl'] for x in zenodo_files]
 
     with TemporaryDirectory() as temp_dir:
         download_urls(urls_to_download, temp_dir, num_download_workers)
