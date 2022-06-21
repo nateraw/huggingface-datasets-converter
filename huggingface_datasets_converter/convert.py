@@ -93,7 +93,7 @@ def get_kaggle_metadata(kaggle_id):
         license = 'unknown'
 
     meta = dict(
-        name=info.get('title'),
+        dataset_name=info.get('title'),
         homepage=f"https://kaggle.com/datasets/{user}/{dataset_name}",
         description=info.get('description'),
         authors=[kaggle_username_to_markdown(user)],
