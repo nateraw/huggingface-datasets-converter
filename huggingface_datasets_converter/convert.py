@@ -6,7 +6,6 @@ from pathlib import Path
 from re import TEMPLATE
 from tempfile import TemporaryDirectory
 
-import kaggle
 import requests
 from bs4 import BeautifulSoup as bs
 from huggingface_hub import create_repo, upload_folder
@@ -83,6 +82,7 @@ def kaggle_username_to_markdown(username):
 
 
 def get_kaggle_metadata(kaggle_id):
+    import kaggle
     user, dataset_name = kaggle_id.split('/')
     data = kaggle.api.metadata_get(user, dataset_name)
     info = data['info']
@@ -128,6 +128,7 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
 
 
 def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
+    import kaggle
     path_in_repo = path_in_repo or ""
     meta = get_kaggle_metadata(kaggle_id)
     with TemporaryDirectory() as temp_dir:
