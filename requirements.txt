@@ -2,3 +2,4 @@ datasets
 bs4
 kaggle
 lxml
+huggingface_hub==0.8.1
