@@ -1,5 +1,6 @@
-datasets
 bs4
+datasets
+huggingface_hub==0.8.1
 kaggle
 lxml
-huggingface_hub==0.8.1
+Pillow
