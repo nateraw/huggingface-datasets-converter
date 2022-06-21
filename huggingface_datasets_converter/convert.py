@@ -96,7 +96,7 @@ def get_kaggle_metadata(kaggle_id):
         dataset_name=info.get('title'),
         homepage=f"https://kaggle.com/datasets/{user}/{dataset_name}",
         description=info.get('description'),
-        authors=[kaggle_username_to_markdown(user)],
+        authors=", ".join([kaggle_username_to_markdown(user)]),
         license=license,
         citation="[More Information Needed]",
         language=None,
@@ -138,7 +138,7 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
     card = ModelCard.from_template(
         card_data=CardData(
             kaggle_id=kaggle_id,
-            licenses=[meta.license],
+            licenses=[meta.get('license')],
         ),
         template_path=TEMPLATE_DATASHEET_PATH,
         **meta,
