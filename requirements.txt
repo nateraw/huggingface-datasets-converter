@@ -4,4 +4,4 @@ huggingface_hub==0.8.1
 kaggle
 lxml
 Pillow
-git+https://github.com/nateraw/modelcards@main
+modelcards==0.1.3
