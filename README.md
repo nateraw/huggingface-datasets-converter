@@ -2,6 +2,10 @@
 
 Scripts to convert datasets from various sources to Hugging Face `datasets`.
 
+## Demo
+
+Convert Any Kaggle Dataset To a Hugging Face Dataset: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nateraw/huggingface-datasets-converter/blob/main/huggingface_datasets_converter_kaggle.ipynb)
+
 ## Usage
 
 ### Setup
