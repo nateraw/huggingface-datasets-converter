@@ -117,7 +117,7 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
     card = ModelCard.from_template(
         card_data=CardData(
             zenodo_id=zenodo_id,
-            licenses=['unknown'],
+            license=['unknown'],
         ),
         template_path=TEMPLATE_DATASHEET_PATH,
         **meta,
@@ -139,7 +139,7 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
     card = ModelCard.from_template(
         card_data=CardData(
             kaggle_id=kaggle_id,
-            licenses=[meta.get('license')],
+            license=[meta.get('license')],
         ),
         template_path=TEMPLATE_DATASHEET_PATH,
         **meta,
