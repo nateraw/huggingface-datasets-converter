@@ -64,9 +64,9 @@ def get_zenodo_metadata(zenodo_id):
     data = json.loads(json_str)
     meta = dict(
         dataset_name=data.get('name'),
-        authors=", ".join([x.get('name') for x in data.get('creator')]),
+        authors=", ".join([x.get('name') for x in data.get('creator')]) if 'creator' in data else "Unknown",
         description=data.get('description'),
-        language=data.get('inLanguage').get('name'),  # Ex. 'English'. will have to be converted to HF taxonomy ('en')
+        language=data.get('inLanguage', {}).get('name'),  # Ex. 'English'. will have to be converted to HF taxonomy ('en')
         license=data.get('license'),  # Returns a URL: http://creativecommons.org/licenses/by-nc/2.0/
         homepage=data.get('url'),
         citation=get_bibtex_citation_from_zenodo(zenodo_id),
