@@ -16,12 +16,16 @@ from .utils import download_and_extract_archive, download_url
 TEMPLATE_DATASHEET_PATH = Path(__file__).parent / "datasheet_template.md"
 
 # Mapping from kaggle license identifiers to Hugging Face license identifiers
+# Note: all licenses in datasets inside Kaggle allow re-sharing of datasets; what we are doing here.
 kaggle_license_map = {
     'CC0-1.0': 'cc0-1.0',
     'CC-BY-SA-3.0': 'cc-by-sa-3.0',
     'CC-BY-SA-4.0': 'cc-by-sa-4.0',
     'CC-BY-NC-SA-4.0': 'cc-by-nc-sa-4.0',
     'GPL-2.0': 'gpl-2.0',
+    'GPL-3.0': 'gpl-3.0',
+    'ODC Public Domain Dedication and Licence (PDDL)': 'pddl',
+    'ODC Attribution License (ODC-By)': 'odc-by',
     'ODbL-1.0': 'odbl-1.0',
     'DbCL-1.0': 'odbl-1.0',  # Note - this isn't exactly right, but dbcl-1.0 inherits from it.
     'other': 'other',
