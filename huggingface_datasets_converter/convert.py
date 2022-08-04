@@ -96,6 +96,14 @@ def get_kaggle_metadata(kaggle_id):
     except:
         license = 'unknown'
 
+    if license == 'unknown':
+        raise NameError(
+            f"The license of the {kaggle_id} dataset is unknown."
+            " No one can use, share, distribute, re-post, add to,"
+            " transform or change the dataset if it has not a specified"
+            " a license."
+        )
+
     meta = dict(
         dataset_name=info.get('title'),
         homepage=f"https://kaggle.com/datasets/{user}/{dataset_name}",
