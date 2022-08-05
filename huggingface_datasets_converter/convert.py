@@ -96,7 +96,7 @@ def get_kaggle_metadata(kaggle_id):
     except:
         license = 'unknown'
 
-    if license == 'unknown':
+    if license == 'unknown' or license == 'other':
         raise NameError(
             f"The license of the {kaggle_id} dataset is unknown."
             " No one can use, share, distribute, re-post, add to,"
