@@ -100,10 +100,12 @@ def get_kaggle_metadata(kaggle_id):
 
     if license == 'unknown' or license == 'other':
         raise NameError(
-            f"The license of the {kaggle_id} dataset is unknown."
+            f"The license of the {kaggle_id} dataset is unknown or is not supported in the Hugging Face Hub."
             " No one can use, share, distribute, re-post, add to,"
             " transform or change the dataset if it has not a specified"
-            " a license."
+            " a license. You can ask the dataset author to specify a"
+            " license in the 'Discussion' section of the dataset's"
+            " Kaggle page."
         )
 
     meta = dict(
