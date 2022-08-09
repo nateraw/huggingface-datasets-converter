@@ -16,12 +16,18 @@ from .utils import download_and_extract_archive, download_url
 TEMPLATE_DATASHEET_PATH = Path(__file__).parent / "datasheet_template.md"
 
 # Mapping from kaggle license identifiers to Hugging Face license identifiers
+# Note: all Kaggle dataset licenses allow re-sharing of datasets, which is required to use this tool.
+# When license is not specified or is 'other', then re-sharing is not allowed and thus this tool will fail.
 kaggle_license_map = {
     'CC0-1.0': 'cc0-1.0',
     'CC-BY-SA-3.0': 'cc-by-sa-3.0',
     'CC-BY-SA-4.0': 'cc-by-sa-4.0',
     'CC-BY-NC-SA-4.0': 'cc-by-nc-sa-4.0',
     'GPL-2.0': 'gpl-2.0',
+    'GNU Lesser General Public License 3.0': 'lgpl-3.0',
+    'GNU Affero General Public License 3.0': 'agpl-3.0',
+    'ODC Public Domain Dedication and Licence (PDDL)': 'pddl',
+    'ODC Attribution License (ODC-By)': 'odc-by',
     'ODbL-1.0': 'odbl-1.0',
     'DbCL-1.0': 'odbl-1.0',  # Note - this isn't exactly right, but dbcl-1.0 inherits from it.
     'other': 'other',
@@ -91,6 +97,16 @@ def get_kaggle_metadata(kaggle_id):
         license = kaggle_license_map.get(license_kaggle, 'unknown')
     except:
         license = 'unknown'
+
+    if license == 'unknown' or license == 'other':
+        raise NameError(
+            f"The license of the {kaggle_id} dataset is unknown or is not supported in the Hugging Face Hub."
+            " No one can use, share, distribute, re-post, add to,"
+            " transform or change the dataset if it has not a specified"
+            " a license. You can ask the dataset author to specify a"
+            " license in the 'Discussion' section of the dataset's"
+            " Kaggle page."
+        )
 
     meta = dict(
         dataset_name=info.get('title'),
