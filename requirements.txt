@@ -4,4 +4,4 @@ huggingface_hub==0.8.1
 kaggle
 lxml
 Pillow
-modelcards==0.1.3
+modelcards==0.1.6
