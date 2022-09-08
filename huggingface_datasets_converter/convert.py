@@ -133,9 +133,8 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
         card_data=DatasetCardData(
             license=['unknown'],
             # These are huggingface-datasets-converter specific kwargs so we can filter for them on the Hub
-            zenodo_id=zenodo_id,
             converted_from='zenodo',
-
+            zenodo_id=zenodo_id,
         ),
         template_path=TEMPLATE_DATASHEET_PATH,
         **meta,
@@ -217,10 +216,11 @@ def notebook_converter_kaggle():
         print("Converting...")
         print(f"\t- Kaggle ID: {kaggle_id}")
         print(f"\t- Repo ID: {repo_id}")
-        kaggle_to_hf(kaggle_id, repo_id)
-        clear_output()
+        url = kaggle_to_hf(kaggle_id, repo_id)
+        output.clear_output()
+        print(f"You can view your dataset here: {url}")
 
-
-    display(login_token_widget)
+    with output:
+        display(login_token_widget)
     finish_button.on_click(login_token_event)
     display(output)
