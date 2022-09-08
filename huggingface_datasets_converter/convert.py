@@ -140,8 +140,7 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
         **meta,
     )
     card.push_to_hub(repo_id)
-
-    print(f"Uploaded your files. Check it out here: {url}")
+    return url
 
 
 def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
@@ -164,8 +163,7 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
         **meta,
     )
     card.push_to_hub(repo_id)
-    print(f"Uploaded your files. Check it out here: {url}")
-
+    return url
 
 NOTEBOOK_CONVERTER_HTML = """<center> <img
 src=https://huggingface.co/front/assets/huggingface_logo-noborder.svg
