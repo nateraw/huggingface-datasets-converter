@@ -27,8 +27,8 @@ kaggle_license_map = {
     'GNU Affero General Public License 3.0': 'agpl-3.0',
     'ODC Public Domain Dedication and Licence (PDDL)': 'pddl',
     'ODC Attribution License (ODC-By)': 'odc-by',
-    'ODbL-1.0': 'odbl-1.0',
-    'DbCL-1.0': 'odbl-1.0',  # Note - this isn't exactly right, but dbcl-1.0 inherits from it.
+    'ODbL-1.0': 'odbl',
+    'DbCL-1.0': 'odbl',  # Note - this isn't exactly right, but dbcl-1.0 inherits from it.
     'other': 'other',
     'unknown': 'unknown',
 }
