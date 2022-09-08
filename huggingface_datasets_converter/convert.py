@@ -8,9 +8,11 @@ from tempfile import TemporaryDirectory
 
 import requests
 from bs4 import BeautifulSoup as bs
-from huggingface_hub import create_repo, upload_folder, DatasetCardData, DatasetCard
+from huggingface_hub import create_repo, upload_folder, DatasetCardData, DatasetCard, upload_file, logging
 
 from .utils import download_and_extract_archive, download_url
+
+logging.set_verbosity_debug()
 
 TEMPLATE_DATASHEET_PATH = Path(__file__).parent / "datasheet_template.md"
 
@@ -142,6 +144,62 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
     card.push_to_hub(repo_id)
     return url
 
+_gitattributes_text = """
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.arrow filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.bz2 filter=lfs diff=lfs merge=lfs -text
+*.ftz filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.joblib filter=lfs diff=lfs merge=lfs -text
+*.lfs.* filter=lfs diff=lfs merge=lfs -text
+*.lz4 filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.msgpack filter=lfs diff=lfs merge=lfs -text
+*.npy filter=lfs diff=lfs merge=lfs -text
+*.npz filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.ot filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+*.pickle filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+saved_model/**/* filter=lfs diff=lfs merge=lfs -text
+*.tar.* filter=lfs diff=lfs merge=lfs -text
+*.tflite filter=lfs diff=lfs merge=lfs -text
+*.tgz filter=lfs diff=lfs merge=lfs -text
+*.wasm filter=lfs diff=lfs merge=lfs -text
+*.xz filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.zst filter=lfs diff=lfs merge=lfs -text
+*tfevents* filter=lfs diff=lfs merge=lfs -text
+# Audio files - uncompressed
+*.pcm filter=lfs diff=lfs merge=lfs -text
+*.sam filter=lfs diff=lfs merge=lfs -text
+*.raw filter=lfs diff=lfs merge=lfs -text
+# Audio files - compressed
+*.aac filter=lfs diff=lfs merge=lfs -text
+*.flac filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+# Image files - uncompressed
+*.bmp filter=lfs diff=lfs merge=lfs -text
+*.gif filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+# Image files - compressed
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+*.json filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
+""".strip()
+
 
 def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
     import kaggle
@@ -150,6 +208,12 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
     with TemporaryDirectory() as temp_dir:
         kaggle.api.dataset_download_files(kaggle_id, temp_dir, unzip=unzip, quiet=False)
         url = create_repo(repo_id, repo_type='dataset', exist_ok=True)
+
+        # HACK - try to update gitattributes to avoid upload_folder failures...
+        gitattributes_file = Path(temp_dir) / '.gitattributes'
+        gitattributes_file.write_text(_gitattributes_text)
+        upload_file(path_or_fileobj=gitattributes_file.as_posix(), path_in_repo=".gitattributes", repo_id=repo_id, token=token, repo_type='dataset')
+
         upload_folder(folder_path=temp_dir, path_in_repo="", repo_id=repo_id, token=None, repo_type='dataset')
     # Try to make dataset card as well!
     card = DatasetCard.from_template(
