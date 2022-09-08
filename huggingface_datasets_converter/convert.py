@@ -131,13 +131,16 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
     # Try to make dataset card as well!
     card = DatasetCard.from_template(
         card_data=DatasetCardData(
-            zenodo_id=zenodo_id,
             license=['unknown'],
+            # These are huggingface-datasets-converter specific kwargs so we can filter for them on the Hub
+            zenodo_id=zenodo_id,
+            converted_from='zenodo',
+
         ),
         template_path=TEMPLATE_DATASHEET_PATH,
         **meta,
     )
-    card.push_to_hub(repo_id, repo_type='dataset')
+    card.push_to_hub(repo_id)
 
     print(f"Uploaded your files. Check it out here: {url}")
 
@@ -153,11 +156,65 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
     # Try to make dataset card as well!
     card = DatasetCard.from_template(
         card_data=DatasetCardData(
-            kaggle_id=kaggle_id,
             license=[meta.get('license')],
+            # These are huggingface-datasets-converter specific kwargs so we can filter for them on the Hub
+            converted_from="kaggle",
+            kaggle_id=kaggle_id,
         ),
         template_path=TEMPLATE_DATASHEET_PATH,
         **meta,
     )
-    card.push_to_hub(repo_id, repo_type='dataset')
+    card.push_to_hub(repo_id)
     print(f"Uploaded your files. Check it out here: {url}")
+
+
+NOTEBOOK_CONVERTER_HTML = """<center> <img
+src=https://huggingface.co/front/assets/huggingface_logo-noborder.svg
+alt='Hugging Face'> <br> Copy a dataset ID from Kaggle's 
+<a href="https://www.kaggle.com/datasets?fileType=csv" target="_blank">csv</a> or 
+<a href="https://www.kaggle.com/datasets?fileType=json" target="_blank">json</a> datasets and paste it below
+<br> Then, provide the ID of the Hugging Face repo to create when converting
+<br> Both IDs should look something like this: <b>username/dataset-or-repo-name</b> </center>"""
+
+def notebook_converter_kaggle():
+    """
+    Displays a widget to login to the HF website and store the token.
+    """
+    try:
+        import ipywidgets.widgets as widgets
+        from IPython.display import clear_output, display
+    except ImportError:
+        raise ImportError(
+            "The `notebook_login` function can only be used in a notebook (Jupyter or"
+            " Colab) and you need the `ipywidgets` module: `pip install ipywidgets`."
+        )
+
+    box_layout = widgets.Layout(
+        display="flex", flex_flow="column", align_items="center", width="50%"
+    )
+
+    kaggle_id_widget = widgets.Password(description="Kaggle ID:")
+    hf_repo_id_widget = widgets.Password(description="Repo ID:")
+    finish_button = widgets.Button(description="Login")
+
+    login_token_widget = widgets.VBox(
+        [
+            widgets.HTML(NOTEBOOK_CONVERTER_HTML),
+            kaggle_id_widget,
+            hf_repo_id_widget,
+            finish_button,
+        ],
+        layout=box_layout,
+    )
+    display(login_token_widget)
+
+    # On click events
+    def login_token_event(t):
+        kaggle_id = kaggle_id_widget.value
+        repo_id = hf_repo_id_widget.value
+        clear_output()
+        kaggle_to_hf(kaggle_id, repo_id)
+        print(f"Kaggle ID: {kaggle_id}")
+        print(f"Repo ID: {repo_id}")
+
+    finish_button.on_click(login_token_event)
