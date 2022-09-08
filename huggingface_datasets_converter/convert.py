@@ -195,7 +195,7 @@ def notebook_converter_kaggle():
 
     kaggle_id_widget = widgets.Text(description="Kaggle ID:")
     hf_repo_id_widget = widgets.Text(description="Repo ID:")
-    finish_button = widgets.Button(description="Login")
+    finish_button = widgets.Button(description="Convert")
 
     login_token_widget = widgets.VBox(
         [
