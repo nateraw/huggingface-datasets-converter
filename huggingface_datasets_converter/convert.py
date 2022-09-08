@@ -193,8 +193,8 @@ def notebook_converter_kaggle():
         display="flex", flex_flow="column", align_items="center", width="50%"
     )
 
-    kaggle_id_widget = widgets.Password(description="Kaggle ID:")
-    hf_repo_id_widget = widgets.Password(description="Repo ID:")
+    kaggle_id_widget = widgets.Text(description="Kaggle ID:")
+    hf_repo_id_widget = widgets.Text(description="Repo ID:")
     finish_button = widgets.Button(description="Login")
 
     login_token_widget = widgets.VBox(
