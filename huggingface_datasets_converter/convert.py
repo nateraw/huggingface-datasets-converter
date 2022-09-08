@@ -217,9 +217,10 @@ def notebook_converter_kaggle():
         print(f"\t- Repo ID: {repo_id}")
         kaggle_id = kaggle_id_widget.value
         repo_id = hf_repo_id_widget.value
-        clear_output()
         kaggle_to_hf(kaggle_id, repo_id)
+        clear_output()
 
 
     display(login_token_widget)
     finish_button.on_click(login_token_event)
+    display(output)
