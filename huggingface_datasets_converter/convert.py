@@ -172,8 +172,8 @@ NOTEBOOK_CONVERTER_HTML = """<center> <img
 src=https://huggingface.co/front/assets/huggingface_logo-noborder.svg
 alt='Hugging Face'> <br> Copy a dataset ID from Kaggle's 
 <a href="https://www.kaggle.com/datasets?fileType=csv" target="_blank">csv</a> or 
-<a href="https://www.kaggle.com/datasets?fileType=json" target="_blank">json</a> datasets and paste it below
-<br> Then, provide the ID of the Hugging Face repo to create when converting
+<a href="https://www.kaggle.com/datasets?fileType=json" target="_blank">json</a> datasets and paste it below.
+<br> Then, provide the Hugging Face repo ID of the dataset repo you'd like to upload to.
 <br> Both IDs should look something like this: <b>username/dataset-or-repo-name</b> </center>"""
 
 def notebook_converter_kaggle():
