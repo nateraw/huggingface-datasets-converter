@@ -8,8 +8,7 @@ from tempfile import TemporaryDirectory
 
 import requests
 from bs4 import BeautifulSoup as bs
-from huggingface_hub import create_repo, upload_folder
-from modelcards import CardData, ModelCard
+from huggingface_hub import create_repo, upload_folder, DatasetCardData, DatasetCard
 
 from .utils import download_and_extract_archive, download_url
 
@@ -130,8 +129,8 @@ def zenodo_to_hf(zenodo_id, repo_id, num_download_workers=1, unzip_archives=True
         upload_folder(folder_path=temp_dir, path_in_repo="", repo_id=repo_id, token=None, repo_type='dataset')
 
     # Try to make dataset card as well!
-    card = ModelCard.from_template(
-        card_data=CardData(
+    card = DatasetCard.from_template(
+        card_data=DatasetCardData(
             zenodo_id=zenodo_id,
             license=['unknown'],
         ),
@@ -152,8 +151,8 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
         url = create_repo(repo_id, repo_type='dataset', exist_ok=True)
         upload_folder(folder_path=temp_dir, path_in_repo="", repo_id=repo_id, token=None, repo_type='dataset')
     # Try to make dataset card as well!
-    card = ModelCard.from_template(
-        card_data=CardData(
+    card = DatasetCard.from_template(
+        card_data=DatasetCardData(
             kaggle_id=kaggle_id,
             license=[meta.get('license')],
         ),
