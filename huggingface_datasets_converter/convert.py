@@ -212,11 +212,11 @@ def notebook_converter_kaggle():
 
     @output.capture()
     def login_token_event(t):
+        kaggle_id = kaggle_id_widget.value
+        repo_id = hf_repo_id_widget.value
         print("Converting...")
         print(f"\t- Kaggle ID: {kaggle_id}")
         print(f"\t- Repo ID: {repo_id}")
-        kaggle_id = kaggle_id_widget.value
-        repo_id = hf_repo_id_widget.value
         kaggle_to_hf(kaggle_id, repo_id)
         clear_output()
 
