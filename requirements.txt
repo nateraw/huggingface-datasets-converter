@@ -1,6 +1,6 @@
 bs4
 datasets
-git+https://github.com/huggingface/huggingface_hub
+huggingface_hub
 kaggle
 lxml
 Pillow
