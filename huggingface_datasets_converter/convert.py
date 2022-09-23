@@ -214,7 +214,7 @@ def kaggle_to_hf(kaggle_id, repo_id, token=None, unzip=True, path_in_repo=None):
         gitattributes_file.write_text(_gitattributes_text)
         upload_file(path_or_fileobj=gitattributes_file.as_posix(), path_in_repo=".gitattributes", repo_id=repo_id, token=token, repo_type='dataset')
 
-        upload_folder(folder_path=temp_dir, path_in_repo="", repo_id=repo_id, token=None, repo_type='dataset')
+        upload_folder(folder_path=temp_dir, path_in_repo="", repo_id=repo_id, token=token, repo_type='dataset')
     # Try to make dataset card as well!
     card = DatasetCard.from_template(
         card_data=DatasetCardData(
